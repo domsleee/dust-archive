@@ -8,7 +8,7 @@ edition = "2021"
 
 [dependencies]
 clap = { version = "4.5.3", features = ["derive"] }
-du-dust = { git = "https://github.com/domsleee/dust", version = "0.9.0" }
+du-dust = { git = "https://github.com/domsleee/dust", version = "^1.0.0", branch = "public-methods" }
 sevenz-rust = "0.5.4"
 terminal_size = "0.3.0"
 zip = "0.6.6"

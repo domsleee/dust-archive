@@ -24,26 +24,29 @@ struct Args {
     /// Print the actual size instead of the compressed size.
     #[arg(short = 'a', long)]
     use_actual_size: bool,
+
+    #[arg(short = 'w', long)]
+    terminal_width: Option<usize>
 }
 
 fn main() -> Result<(), Error> {
     let args = Args::parse();
 
     let current_dir = env::current_dir()?;
-    let resolved_zip_file = current_dir.join(args.archive_file);
+    let resolved_archive = current_dir.join(args.archive_file);
 
-    if !resolved_zip_file.exists() {
+    if !resolved_archive.exists() {
         eprintln!(
             "The specified archive does not exist: {}",
-            resolved_zip_file.display()
+            resolved_archive.display()
         );
         std::process::exit(1);
     }
 
     let depth = args.depth.unwrap_or(usize::MAX);
-    let root_node = match resolved_zip_file.extension().and_then(|ext| ext.to_str()) {
-        Some("zip") => read_zip::read_zip(&resolved_zip_file, depth, args.use_actual_size)?,
-        Some("7z") => read_7z::read_7z(&resolved_zip_file, depth, args.use_actual_size)?,
+    let root_node = match resolved_archive.extension().and_then(|ext| ext.to_str()) {
+        Some("zip") => read_zip::read_zip(&resolved_archive, depth, args.use_actual_size)?,
+        Some("7z") => read_7z::read_7z(&resolved_archive, depth, args.use_actual_size)?,
         Some(ext) => {
             eprintln!("Unsupported archive format: {}", ext);
             std::process::exit(1);
@@ -51,11 +54,13 @@ fn main() -> Result<(), Error> {
         None => {
             eprintln!(
                 "Only supports files with extensions: {}",
-                resolved_zip_file.display()
+                resolved_archive.display()
             );
             std::process::exit(1);
         }
     };
+
+    let terminal_width = args.terminal_width.unwrap_or(get_width_of_terminal());
 
     draw_it(
         InitialDisplayData {
@@ -65,10 +70,10 @@ fn main() -> Result<(), Error> {
             by_filecount: false,
             is_screen_reader: false,
             output_format: "".to_string(),
-            bars_on_right: true,
+            bars_on_right: false,
         },
         false,
-        get_width_of_terminal(),
+        terminal_width,
         &root_node,
         false,
     );

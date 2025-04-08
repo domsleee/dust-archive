@@ -26,7 +26,7 @@ struct Args {
     use_actual_size: bool,
 
     #[arg(short = 'w', long)]
-    terminal_width: Option<usize>
+    terminal_width: Option<usize>,
 }
 
 fn main() -> Result<(), Error> {
@@ -71,6 +71,7 @@ fn main() -> Result<(), Error> {
             is_screen_reader: false,
             output_format: "".to_string(),
             bars_on_right: false,
+            by_filetime: None,
         },
         false,
         terminal_width,

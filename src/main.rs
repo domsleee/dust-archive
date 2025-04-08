@@ -1,7 +1,7 @@
-use du_dust::{draw_it, InitialDisplayData};
+use du_dust::{InitialDisplayData, draw_it};
 use std::io::Error;
 use std::{cmp::max, env};
-use terminal_size::{terminal_size, Width};
+use terminal_size::{Width, terminal_size};
 static DEFAULT_TERMINAL_WIDTH: usize = 80;
 
 mod read_7z;
@@ -25,8 +25,9 @@ struct Args {
     #[arg(short = 'a', long)]
     use_actual_size: bool,
 
+    /// The width of the terminal for output.
     #[arg(short = 'w', long)]
-    terminal_width: Option<usize>
+    terminal_width: Option<usize>,
 }
 
 fn main() -> Result<(), Error> {
@@ -71,6 +72,7 @@ fn main() -> Result<(), Error> {
             is_screen_reader: false,
             output_format: "".to_string(),
             bars_on_right: false,
+            by_filetime: None,
         },
         false,
         terminal_width,

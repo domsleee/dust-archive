@@ -1,17 +1,17 @@
 [package]
 name = "dust-archive"
 description = "Print compressed sizes of archives in a tree-like format."
-version = "0.1.0"
-edition = "2021"
+version = "0.1.1"
+edition = "2024"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-clap = { version = "4.5.3", features = ["derive"] }
-du-dust = { git = "https://github.com/domsleee/dust", version = "^1.0.0", branch = "public-methods" }
-sevenz-rust = "0.5.4"
-terminal_size = "0.3.0"
-zip = "0.6.6"
+clap = { version = "4.5.35", features = ["derive"] }
+du-dust = { git = "https://github.com/domsleee/dust", version = "^1.0.0", branch = "public-methods-2025" }
+sevenz-rust = "0.6.1"
+terminal_size = "0.4.2"
+zip = "2.6.1"
 
 [profile.release]
 lto = true
